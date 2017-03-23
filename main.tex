@@ -1,0 +1,777 @@
+\documentclass[UTF8]{ctexart}%
+%\usepackage{babel}%
+%\usepackage{natbib}%
+\usepackage{authblk}%
+\usepackage{mathtools}%
+\usepackage{mathrsfs}%
+\usepackage[margin=2.54cm]{geometry}%
+\usepackage{relsize}%
+%\usepackage[T1]{fontenc}%
+\usepackage{booktabs}%
+\usepackage{amsfonts,amssymb}%
+\usepackage[nottoc,numbib]{tocbibind}%
+\usepackage[capitalise]{cleveref}%
+%\usepackage[hyperlink]{hyperref}%
+
+
+\title{《Mécanique des Mécanismes》注解}
+%\author[1]{原著：Yannick Desplanques}
+%\affil[1]{Ecole Centrale de Lille}
+\author{潘飞}
+\affil{香港城市大学}
+
+\date{\today\\Version 0.0.1}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{前言}
+\label{sec:前言}
+改编自Ecole Centrale de Lille的《Mécanique des Mécanismes》讲义\cite{desplanques_mecanique_2011}。
+
+这段时间看MDM这门课，突然产生了一些新的想法。闲暇之余，我觉得还是写下来比较好。
+
+MDM这本书对于力学概念的解释不足，力学课被生生上成了数学课。前苏联数学家V.I. Arnold对法国的数学教育提出过一些批评\cite{0036-0279-53-1-M17}。
+
+书里用到了“旋量”，相较于国内的书比较新颖。2015年有中国学者做了综述\cite{__2015}，还出版了两本书介绍旋量理论\cite{__2014,__2014-1}。
+
+对于完整地学过国内的《理论力学》的同学而言，理解MDM课本可能会相对轻松一些，然而这本书又引入了一些《理论力学》没有的提法，所以应该还会存在一些困惑。
+
+对于其他同学，粗粗地学一遍《理论力学》是很有必要的。
+
+最后，此文档仅作为补充。数学的表达并不严谨，一定有许多不足，敬请读者提出批评指正。
+
+本讲义中涉及到的符号列表如下：
+
+% Please add the following required packages to your document preamble:
+% 
+\begin{table}[htbp]
+\centering
+\caption{符号表}
+\label{符号表}
+\begin{tabular}{@{}ll@{}}
+\toprule
+符号         & 含义                        \\ \midrule
+$P$          & 质点或者质点系的某一质点，或者刚体上的某一动点   \\
+$q_i$       & 第i个位置参数                   \\
+$V$          & 质点或者质点系的某一质点，或者刚体的速度（矢量）  \\
+$\Gamma$      & 质点或者质点系的某一质点，或者刚体的加速度（矢量） \\
+$R$          & 没有特殊含义的坐标系，可以是惯性系，也可以是非惯性系   \\
+$R_0$       & 某坐标系，可以理解为我的坐标系           \\
+$R_s$       & 另一个坐标系，为了给读者讲清楚我的公式而创造    \\
+$R_g$       & 伽利略参考系下的坐标系，g表示Galilean   \\
+$\Sigma$      & 质点系，此讲义里默认质点系质量守恒         \\
+$S$          & 刚体，属于质点系                  \\
+$\overline{\Sigma}$ & 质点系的补集，不懂的话，复习高中数学        \\
+$\overline{S}$     & 刚体的补集，不懂的话，同上             \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\section{运动学}
+\label{sec:运动学}
+
+\subsection{坐标系}
+\label{sec:坐标系}
+确定一个点在空间中某时刻的位置需要引入两个参考物：
+\begin{description}
+	\item[$\bullet$] \emph{时间}，一维仿射空间，用$T$表示，
+	\item[$\bullet$] \emph{空间}，三维仿射空间，用$E$表示。
+\end{description}
+
+假设$O$是此空间里的某一点，我们将其设为\emph{原点}，$b$是空间中一组正交的单位向量，称为\emph{基矢}。那么我们将$R\left(O,b\right)$称作\emph{坐标系}，将$S\left(T,E\right)$称作\emph{参考系}。
+\subsection{质点运动学}
+\label{sec:质点运动学}
+
+\subsubsection{质点的位置}
+\label{sec:质点的位置}
+质点的位置可以用不同的坐标系描述，比如直角坐标系、柱坐标系和球坐标系。质点的位置在坐标系下的量度称为\emph{位置参数}，其只与时间有关，记作$q_i=q_i\left(t\right)$。在分析力学中，$q_i$亦可称为广义坐标。于是质点的位置可以表示为：
+\begin{equation}
+\overrightarrow{OP}\left(t\right)=\overrightarrow{OP}\left(q_i\left(t\right)\right)=\overrightarrow{OP}\left(q_i\right)
+\end{equation}
+
+特别的，
+\begin{description}
+	\item[$\bullet$] 笛卡尔坐标系下 $q_1=x,\ q_2=y,\ q_3=z$
+	\item[$\bullet$] 柱坐标系下 $q_1=r,\ q_2=\theta,\ q_3=z$
+	\item[$\bullet$] 球坐标系下 $q_1=\theta,\ q_2=\phi,\ q_3=\rho$
+\end{description}
+
+\subsubsection{质点的速度}
+\label{sec:质点的速度}
+
+\begin{equation}
+\overrightarrow{V}\left(P/R, t\right)=\left[\frac{\mathrm{d}\overrightarrow{OP}}{\mathrm{d}t}\right]_R\left(t\right), \forall O \in E 
+\end{equation}
+
+实际运算时，往往将$\overrightarrow{V}\left(P/R, t\right)$缩写成$\overrightarrow{V}\left(P/R\right)$。
+
+质点的速度可以分解成下述形式：
+\begin{equation}
+\overrightarrow{V}\left(P/R\right)=\sum_i \left[\frac{\partial \overrightarrow{OP}}{\partial q_i}\right]_R\left(\dot{q}_i\right)
+\label{eq:vitessedunpointP}
+\end{equation}
+
+$\overrightarrow{V}_{q_i}\left(P/R\right)=\left[\frac{\partial \overrightarrow{OP}}{\partial q_i}\right]_R$称为``vitesse partielle relative au paramètre $q_i$''。
+\begin{equation}
+\overrightarrow{V}_{q_i}\left(P/R\right)=\left[\frac{\partial \overrightarrow{OP}}{\partial q_i}\right]_R
+\label{eq:vitesserelativedunpointP}
+\end{equation}
+
+坐标系$R_s$相对于坐标系$R_0$旋转的角速度为：
+\begin{equation}
+\overrightarrow{\Omega}\left(R_s/R_0\right)=\sum_i \dot{q}_i \overrightarrow{u_i}
+\end{equation}
+
+$\overrightarrow{u_i}$是坐标系$R_0$下对应于位置参数$q_i$的基矢。
+
+假设$\overrightarrow{K}$为一任意矢量（既不固定于$R_0$、也不固定于$R_s$），那么其在$R_0$和$R_s$两个坐标系下随时间的变化率关系如下：
+\begin{equation}
+\underbrace{\left[\frac{\mathrm{d}\overrightarrow{K}}{\mathrm{d}t}\right]_{R_0}}_{\text{绝对变率}}=\underbrace{\left[\frac{\mathrm{d}\overrightarrow{K}}{\mathrm{d}t}\right]_{R_s}}_{\text{相对变率}}+\underbrace{\overrightarrow{\Omega}\left(R_s/R_0\right)\times \overrightarrow{K}}_{\text{牵连变率}}
+\end{equation}
+
+假设$\overrightarrow{k_s}$为坐标系$R_s$中的某个固定方向的单位矢量，那么其在不同坐标系下随时间的变化率如下：
+\begin{equation}
+\left[\frac{\mathrm{d}\overrightarrow{k_s}}{\mathrm{d}t}\right]_{R_0}=\overrightarrow{\Omega}\left(R_s/R_0\right)\times\overrightarrow{k_s}
+\end{equation}
+
+\emph{两个不同空间中的速度场变换公式}
+
+假设存在两个不同的空间$E_0$和$E_s$，为每个空间指定参考系，分别为$0$和$s$，继续在参考系上建立坐标系，分别为$R_0$和$R_s$。为空间$E_s$赋予速度场，那么空间$E_s$中点$A_s$的速度可以记作$\overrightarrow{V}\left(A_s/R_s\right)$。现欲从空间$E_0$中观察空间$E_s$中的两点$A_s$和$B_s$的速度，可以找出下列变换关系式：
+\begin{equation}
+\forall A_s\ \text{et}\  B_s \in R_s, \overrightarrow{V}\left(A_s/R_0\right)=\overrightarrow{V}\left(B_s/R_0\right)+\overrightarrow{\Omega}\left(R_s/R_0\right)\times \overrightarrow{B_sA_s}
+\end{equation}
+如果$A_s$和$B_s$在空间$E_s$（或者参考系$s$）中保持静止，上述关系式还可以理解为：空间$E_s$相对于$E_0$的变形速度。
+
+\emph{同一质点在不同坐标系间的速度变换公式}
+\begin{equation}
+\underbrace{\overrightarrow{V}\left(P/R_1\right)}_{\text{绝对速度}}=\underbrace{\overrightarrow{V}\left(P/R_2\right)}_{\text{相对速度}}+\underbrace{\overrightarrow{V}\left(O_2/R_1\right)+\overrightarrow{\Omega}\left(R_2/R_1\right)\times\overrightarrow{O_2P}}_{\overrightarrow{V}\left(P_2/R_1\right)\ \text{牵连速度}}
+\end{equation}
+
+点$P_2$是坐标系$R_2$中的某一点，其在时刻$t$与坐标系$R_0$中的点$P$重合。
+
+\subsubsection{质点的加速度}
+\label{sec:质点的加速度}
+
+质点在坐标系$R$中的加速度为：
+\begin{equation}
+\overrightarrow{\Gamma}\left(P/R, t\right)=\left[\frac{\mathrm{d}\overrightarrow{V}\left(P/R\right)}{\mathrm{d}t}\right]_R\left(t\right)=\left[\frac{\mathrm{d}^2\overrightarrow{OP}}{\mathrm{d}t^2}\right]_R\left(t\right)
+\end{equation}
+
+\emph{两个不同空间中的加速度场变换公式}
+
+假设存在两个不同的空间$E_0$和$E_s$，为每个空间指定参考系，分别为$0$和$s$，继续在参考系上建立坐标系，分别为$R_0$和$R_s$。为空间$E_s$赋予加速度场，那么空间$E_s$中点$A_s$的加速度可以记作$\overrightarrow{\Gamma}\left(A_s/R_s\right)$。现欲从空间$E_0$中观察空间$E_s$中的两点$A_s$和$B_s$的加速度，可以找出下列变换关系式：
+\begin{equation}
+\overrightarrow{\Gamma}\left(A_s/R_0\right)=\overrightarrow{\Gamma}\left(B_s/R_0\right)+\left[\frac{\mathrm{d}\overrightarrow{\Omega}\left(R_s/R_0\right)}{\mathrm{d}t} \right]_{R_0}\times\overrightarrow{B_sA_s}+\overrightarrow{\Omega}\left(R_s/R_0\right)\times\left[\overrightarrow{\Omega}\left(R_s/R_0\right)\times\overrightarrow{B_sA_s}\right]
+\end{equation}
+如果$A_s$和$B_s$在空间$E_s$（或者参考系$s$）中保持静止，上述关系式还可以理解为：空间$E_s$相对于$E_0$的变形加速度。
+
+\emph{同一质点在不同坐标系间的加速度变换公式}
+\begin{equation}
+\underbrace{\overrightarrow{\Gamma}\left(P/R_1\right)}_{\text{绝对加速度}}=\underbrace{\overrightarrow{\Gamma}\left(P/R_2\right)}_{\text{相对加速度}}+\underbrace{\overrightarrow{\Gamma}\left(P_2/R_1\right)}_{\text{牵连加速度}}+\underbrace{2\overrightarrow{\Omega}\left(R_2/R_1\right)\times\overrightarrow{V}\left(P/R_2\right)}_{\text{科里奥利加速度}}
+\end{equation}
+\begin{equation}
+\overrightarrow{\Gamma}\left(P_2/R_1\right)=\overrightarrow{\Gamma}\left(O_2/R_1\right)+\left[\frac{\mathrm{d}\overrightarrow{\Omega}\left(R_2/R_1\right)}{\mathrm{d}t} \right]_{R_1}\times\overrightarrow{O_2P}+\overrightarrow{\Omega}\left(R_2/R_1\right)\times\left[\overrightarrow{\Omega}\left(R_2/R_1\right)\times\overrightarrow{O_2P}\right]
+\end{equation}
+
+点$P_2$是坐标系$R_2$中的某一点，其在时刻$t$与坐标系$R_0$中的点$P$重合。
+
+\subsection{刚体运动学}
+\label{sec:刚体运动学}
+内部任何两点的距离在运动中保持不变的物体称为刚体。自由刚体指运动不受任何限制的刚体。自由刚体具有3个平移自由度和3个转动自由度。 
+
+在刚体$S$上任取一确定点为基点$A$，基点$A$的平动即可代表整个刚体的平动。刚体的运动可以由刚体的角速度$\overrightarrow{\Omega}\left(S/R\right)$和$A$的速度$\overrightarrow{V}\left(A/R\right)$描述。
+
+假设$\forall$ $A_s$和$B_s$ $\in$ $S$，$\forall$坐标系$R$，均有：
+\begin{equation}
+\overrightarrow{V}\left(B_s/R\right)=\overrightarrow{V}\left(A_s/R\right)+\overrightarrow{\Omega}\left(S/R\right)\times \overrightarrow{A_sB_s}
+\end{equation}
+
+
+\subsection{单个非自由刚体的位置参数化}
+\label{sec:单个非自由刚体的位置参数化}
+非自由刚体是指受到约束\footnote{本讲义默认均为理想约束}以后不能随意运动的刚体，于是给这些非自由刚体选择合适的位置参数是一个问题。位置参数的选择可以简单粗暴地分为两种：第一种是按照约束允许的自由度来选择，第二类是自（胡）由（乱）选择位置参数。
+
+第一种位置参数化容易理解，比如扫地机器人，其位置坐标可以选择为平移自由度$x$、$y$和转动自由度$\theta$。这样的位置参数是与地板这个appui plan约束相容的，并且互相独立，在求解问题时只需要列出3个独立的方程分别求出$x$、$y$和$\theta$即可。
+
+第二种位置参数化比较无厘头。同样选择扫地机器人，可以为其赋予6个位置参数$x$、$y$、$z$、$\theta$、$\phi$和$\rho$，显然这6个位置参数不是互相独立的，因为扫地机器人不可能在6个方向上自由运动，它受到地板的约束，所以在求解问题时，需要补足若干个约束方程，消除$z$、$\phi$和$\rho$。
+
+我们称第一种位置参数化是与约束相容的(compatible, cinématique admissible)，第二种位置参数化是与约束不相容的(non compatible, non cinématique admissible)。
+
+如果有多个刚体被多个约束所束缚，形成机构，那么相应的提法会有所变化。见\cref{sec:机构的位置参数化}。
+
+\subsection{机构的位置参数化}
+\label{sec:机构的位置参数化}
+机构由多个刚体组成、被一连串约束束缚、能够完成一定的机械操作。机构分为开放结构、封闭结构和复杂结构。复杂结构由开放结构和封闭结构组成。
+
+对于单个非自由刚体而言，提法是“位置参数是否与约束相容”；对于机构而言，不仅可以讲“机构中的某一个刚体的位置参数是否与其所受约束相容”，还需要判别“机构的运动是否与所受约束相容”。
+
+对于开放结构而言，只需要从基底开始逐一为刚体赋予与其所受约束“相容”的位置参数，整个机构的“运动”便是与所受约束“相容”的，求解最终问题时亦不会出现约束方程。
+
+对于封闭结构而言，如果从基底开始逐一为刚体赋予与其所受约束“相容”的位置参数，完成所有位置参数化过程后，仍然会发现机构的“运动”与所受约束“不相容”，此时就需要补充一个或者两者矢量形式的约束（称为liaison de fermeture）方程。矢量形式的约束方程可以写成$n_s$个标量方程。封闭机构的位置参数有$n$个，但其运动自由度只有$d_s (\le n)$个。
+
+不管对于什么机构（由$p$个刚体组成），开放、封闭或者复杂，静定或者超静定，求解问题时，其未知数和方程的关系如下：
+\begin{description}
+	\item[$\bullet$] 未知数
+	\begin{itemize}
+		\item $n$个待求解的位置参数
+		\item $N_s$个约束反力
+	\end{itemize}
+	\item[$\bullet$] 方程
+	\begin{itemize}
+		\item $6p$平衡方程（即力平衡、力矩平衡）
+		\item $q$个约束方程
+	\end{itemize}
+\end{description}
+
+如果机构静定，那么$q=n_s$，$n_s$是liaison de fermeture禁止的自由度数量；如果机构超静定，且其“超静定度”为$h_s$，那么$q=n_s-h_s$，即超静定问题事实上是对机构中的某个刚体的某个自由度的多重限制，比如在扫地机器人上面施加一个正压力，该力对最后求解扫地机器人的运动毫无帮助，因为扫地机器人本来就不能在竖直方向上运动。
+
+从$n$、$N_s$、$6p$、$q$出发可得到若干关系式：
+
+机构的运动自由度$d_s=n-q$，机
+
+
+\section{动力学}
+\label{sec:动力学}
+动力学包括质点动力学和质点系动力学，后者又包括刚体动力学。
+
+\subsection{刚体的速度场和速度旋量}
+\label{sec:刚体的速度场和速度旋量}
+我们假设一个刚体$S$在时刻$t$的速度场为$\overrightarrow{V}\left(A/R,t\right),\ A\in S$。$\overrightarrow{V}\left(A/R,t\right)$是一个刚体在时刻$t$的速度场的充分必要条件是\cite{temam_mathematical_2005}：
+\begin{equation}
+\forall A, B \in S,\ \left(\overrightarrow{OA}\left(t\right)-\overrightarrow{OB}\left(t\right)\right)\cdot [\overrightarrow{V}\left(A/R,t\right)-\overrightarrow{V}\left(B/R,t\right)]=0
+\label{eq:velocityfieldofasolid}
+\end{equation}
+
+\Cref{eq:velocityfieldofasolid}对每个$A$和$B$ $\in S$都成立的条件是，当且仅当存在矢量$\overrightarrow{b},\overrightarrow{\Omega}\in \mathbb{R}^3$使得下式成立：
+\begin{equation}
+\overrightarrow{V}\left(A/R\right)=\overrightarrow{b}+\overrightarrow{\Omega}\times\overrightarrow{OA}
+\label{eq:velocityfieldofasolid_2}
+\end{equation}
+
+于是我们定义，在$\mathbb{R}^3$上满足\cref{eq:velocityfieldofasolid}或者等价地满足\cref{eq:velocityfieldofasolid_2}的矢量场为螺旋矢量场\footnote{English: Helicoidal Vector Field}，而$\left\{\begin{matrix}
+  \overrightarrow{\Omega} \\
+  \overrightarrow{V}\left(A\right) 
+ \end{matrix} \right\}_A$则称为一个旋量\footnote{Français: Torseur}（或者在点$A$处的约化元\footnote{English: Reduction elements}）。其中， $\overrightarrow{\Omega}$称为``the resultant (or linear resultant) of the helicoidal vector field"而$\overrightarrow{V}\left(A\right)$称为``its resulting (or angular) momentum at $A$"\cite{temam_mathematical_2005}。
+ 
+于是刚体$S$的速度旋量可以表示为：
+\begin{equation}
+\mathlarger{\mathscr{V}}\left(S/R\right)=\left\{\begin{matrix}
+  \overrightarrow{\Omega}\left(S/R\right) \\
+  \overrightarrow{V}\left(A/R\right) 
+ \end{matrix} \right\}_A
+\end{equation}
+
+\subsection{特定形式旋量的性质}
+\label{sec:特定形式旋量的性质}
+假设$\Sigma$是质量守恒的质点系\footnote{我懒得给出质点系质量守恒的定义，反正在本讲义中$\Sigma$默认代表一个质量守恒的质点系}，$A$是空间中固定的、任意选取的一个几何点（可以属于、亦可以不属于$\Sigma$），$P$是$\Sigma$内的一个可以随意运动的几何点。假设$\overrightarrow{f}\left(P\right)$是定义在$\Sigma$的一部分$\Omega$上的矢量场。那么我们可以\emph{构建}下述旋量$\mathlarger{\mathscr{T}}$：
+
+\begin{equation}
+\mathlarger{\mathscr{T}}=\left\{\begin{matrix}
+  \int_{\Omega}\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega \\
+  \int_{\Omega}\overrightarrow{AP}\times\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega 
+ \end{matrix} \right\}_A
+\end{equation}
+
+再假设$\mathlarger{\mathscr{X}}$是任意一个旋量，记作$\mathlarger{\mathscr{X}}=\left\{\begin{matrix}
+  \overrightarrow{R} \\
+  \overrightarrow{M}\left(A\right) 
+ \end{matrix} \right\}_A$
+
+上述旋量满足下列两条运算法则：
+\begin{equation}
+\int_{\Omega}\overrightarrow{BP}\times\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega=\int_{\Omega}\left(\overrightarrow{BA}+\overrightarrow{AP}\right)\times\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega=\overrightarrow{BA}\times\int_{\Omega}\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega+\int_{\Omega}\overrightarrow{AP}\times\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega
+\end{equation}
+
+\begin{equation}
+\mathlarger{\mathscr{T}}\bullet \mathlarger{\mathscr{X}}=\overrightarrow{M}\left(A\right)\cdot\int_{\Omega}\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega+\overrightarrow{R}\cdot\int_{\Omega}\overrightarrow{AP}\times\overrightarrow{f}\left(P\right)\ \mathrm{d}\Omega
+\end{equation}
+
+\subsection{质点系的动量旋量}
+\label{sec:质点系的动量旋量}
+参见动量\footnote{Français: quantité de mouvement}、动量矩\footnote{Français: moment cinétique, moment angulaire}
+
+\begin{equation}
+\mathlarger{\mathscr{C}}\left(\Sigma/R\right)=\left\{\begin{matrix}
+  \int_{\Sigma}\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m \\
+  \int_{\Sigma}\overrightarrow{AP}\times\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m
+ \end{matrix} \right\}_A=\left\{\begin{matrix}
+	m_{\Sigma}\overrightarrow{V}\left(G_{\Sigma}/R\right)\\
+	\overrightarrow{\sigma}\left(A, \Sigma/R\right)
+ \end{matrix} \right\}_A
+\end{equation}
+
+$\int_{\Sigma}\overrightarrow{AP}\times\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m$是质点系对点$A$的角动量（动量矩）；$\int_{\Sigma}\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m$是质点系的线动量（动量）。
+
+\subsection{质点系的加速度量旋量}
+\label{sec:质点系的加速度量旋量}
+参见力\footnote{Français: la résultante dynamique}、力矩\footnote{Français: le moment d'une force; le moment dynamique}。
+
+\begin{equation}
+\mathlarger{\mathscr{D}}\left(\Sigma/R\right)=\left\{\begin{matrix}
+  \int_{\Sigma}\overrightarrow{\Gamma}\left(P/R\right)\ \mathrm{d}m \\
+  \int_{\Sigma}\overrightarrow{AP}\times\overrightarrow{\Gamma}\left(P/R\right)\ \mathrm{d}m 
+ \end{matrix} \right\}_A=\left\{\begin{matrix}
+	m_{\Sigma}\overrightarrow{\Gamma}\left(G_{\Sigma}/R\right)\\
+	\overrightarrow{\delta}\left(A, \Sigma/R\right)
+ \end{matrix} \right\}_A
+\end{equation}
+
+$m_{\Sigma}$是质点系的质量，$G_{\Sigma}$是质点系的质心。$m_{\Sigma}\overrightarrow{\Gamma}\left(G_{\Sigma}/R\right)$是质点系的dynamical resultant（相当于力），$\overrightarrow{\delta}\left(A, \Sigma/R\right)$是质点系对$A$点的dynamical momentum（相当于力矩）。
+
+\subsubsection{Dynamical resultant的计算}
+\label{sec:DynamicalResultant的计算}
+\begin{equation}
+\int_{\Sigma}\overrightarrow{\Gamma}\left(P/R\right)\ \mathrm{d}m=\int_{\Sigma}\left[\frac{\mathrm{d}^2 \overrightarrow{OP}}{\mathrm{d}t^2}\right]\ \mathrm{d}m=\frac{\mathrm{d}^2}{\mathrm{d}t^2}\underbrace{\left[\int_{\Sigma}\overrightarrow{OP}\ \mathrm{d}m\right]}_{m_{\Sigma}\overrightarrow{OG_{\Sigma}}}=m_{\Sigma}\overrightarrow{\Gamma}\left(G_{\Sigma}/R\right)
+\end{equation}
+
+\subsubsection{Dynamical momentum的计算}
+\label{sec:DynamicalMomentum的计算}
+\begin{align}
+\overrightarrow{\delta}\left(A, \Sigma/R\right)&=\int_{\Sigma}\overrightarrow{AP}\times\overrightarrow{\Gamma}\left(P/R\right)\ \mathrm{d}m=\int_{\Sigma}\overrightarrow{AP}\times\left[\frac{\mathrm{d}\overrightarrow{V}\left(P/R\right)}{\mathrm{d}t} \right]_R\ \mathrm{d}m\notag \\
+&=\int_{\Sigma}\left[\frac{\mathrm{d}\overrightarrow{AP}\times\overrightarrow{V}\left(P/R\right)}{\mathrm{d}t} \right]_R\ \mathrm{d}m-\int_{\Sigma}\left[\frac{\mathrm{d}\overrightarrow{AP}}{\mathrm{d}t}\right]_R\times\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m \notag \\
+&=\left[\frac{\mathrm{d}}{\mathrm{d}t}\left(\int_{\Sigma}\overrightarrow{AP}\times\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m\right)\right]_R-\int_{\Sigma}\left[\overrightarrow{V}\left(P/R\right)-\overrightarrow{V}\left(A/R\right)\right]\times\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m \notag \\
+&=\left[\frac{\mathrm{d}}{\mathrm{d}t}\left(\int_{\Sigma}\overrightarrow{AP}\times\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m\right)\right]_R-\overrightarrow{V}\left(A/R\right)\times\int_{\Sigma}\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m	
+\end{align}
+
+\subsection{刚体的动量旋量与加速度量旋量}
+\label{sec:刚体的动量旋量与加速度量旋量}
+如果质点系$\Sigma$是一个刚体$S$，那么会有下列关系式:
+
+\emph{一个刚体的总动量的计算}
+\begin{description}
+	\item[$\bullet$] Changement de point :
+	\begin{equation}
+	\overrightarrow{\sigma}\left(B,S/R\right)=\overrightarrow{\sigma}\left(A,S/R\right)+m_S\cdot \overrightarrow{V}\left(G_S/R\right)\times\overrightarrow{AB}
+	\end{equation}
+	\item[$\bullet$] A partir du tenseur d'inertie en $B_S\in S$ :
+	\begin{equation}
+	\overrightarrow{\sigma}\left(B_S,S/R\right)=\overline{\overline{I}}\left(B_S,S/R\right)\cdot \overrightarrow{\Omega}\left(S/R\right)+m_S\cdot \overrightarrow{B_S G_S}\times\overrightarrow{V}\left(B_S/R\right)
+	\end{equation}
+\end{description}
+
+\emph{一个刚体的Dynamical momentum的计算}
+\begin{description}
+	\item[$\bullet$] Changement de point :
+	\begin{equation}
+	\overrightarrow{\delta}\left(B,S/R\right)=\overrightarrow{\delta}\left(A,S/R\right)+m_S\cdot \overrightarrow{\Gamma}\left(G_S/R\right)\times\overrightarrow{AB}
+	\end{equation}
+	\item[$\bullet$] A partir du moment cinetique :
+	\begin{equation}
+	\overrightarrow{\delta}\left(A,S/R\right)=\left[\frac{\mathrm{d}\overrightarrow{\Sigma}\left(A,S/R\right)}{\mathrm{d}t}\right]_R+m_S\cdot \overrightarrow{V}\left(A/R\right)\times\overrightarrow{V}\left(G_S/R\right)
+	\end{equation}
+\end{description}
+
+\subsection{动能}
+\label{sec:动能}
+
+\emph{质点系的动能}
+\begin{equation}
+T\left(\Omega/R\right)=\frac{1}{2}\int_{\Omega}\overrightarrow{V}\left(P/R\right)^2\ \mathrm{d}m
+\end{equation}
+
+\emph{刚体的动能}
+\begin{align}
+T\left(S/R\right)&=\frac{1}{2}\int_{S}\overrightarrow{V}\left(P/R\right)\cdot\overrightarrow{V}\left(P/R\right)\ \mathrm{d}m\notag \\ &=\frac{1}{2}\mathlarger{\mathscr{V}}\left(S/R\right)\bullet \mathlarger{\mathscr{C}}\left(S/R\right)=\frac{1}{2}\left\{\begin{matrix}
+  \overrightarrow{\Omega}\left(S/R\right) \\
+  \overrightarrow{V}\left(A/R\right)
+ \end{matrix} \right\}_A\bullet \left\{\begin{matrix}
+	m_{\Sigma}\overrightarrow{V}\left(G_{\Sigma}/R\right)\\
+	\overrightarrow{\sigma}\left(A, \Sigma/R\right)
+ \end{matrix} \right\}_A
+\end{align}
+
+\subsection{刚体的惯性张量}
+\label{sec:刚体的惯性张量}
+假设$S$是一个刚体，$R_S=\left( A_S,\overrightarrow{x_S},\overrightarrow{y_S},\overrightarrow{z_S}\right)$与$S$固结的坐标系，$P$是$S$上的一个动点，而$\overrightarrow{u}$是任意矢量。
+
+\emph{定义}
+
+我们把刚体$S$刚对于点$A_S$的惯性张量定义为下述线性算子：
+\begin{equation}
+    \overrightarrow{u}\ \mapsto \ \int_S{\overrightarrow{A_SP}\times \left( \overrightarrow{u}\times \overrightarrow{A_SP}\right)}\,\mathrm{d}m
+\end{equation}
+
+记：
+\begin{equation}
+    \overline{\overline{I}}\left(A_S,S\right) \overrightarrow{u}=\int_S{\overrightarrow{A_SP}\times \left( \overrightarrow{u}\times \overrightarrow{A_SP}\right)}\,\mathrm{d}m
+\end{equation}
+
+\emph{计算惯性矩阵}
+
+我们记$u_1,u_2,u_3$是矢量$\overrightarrow{u}$在坐标系$R_S$下的坐标分量，而$x,y,z$则是动点$P$在坐标系$R_S$下的坐标分量。
+
+于是可得到：
+\begin{equation}
+\overrightarrow{A_SP}\times\left( \overrightarrow{u}\times \overrightarrow{A_SP}\right) =\left|\begin{matrix}
+	u_1y^2-u_2xy-u_3xz+u_1z^2 \\
+	u_2z^2-u_3yz-u_1xy+u_2x^2 \\
+	u_3x^2-u_1zx-u_2yz+u_3y^2 \\
+	\end{matrix}\right.
+\end{equation}
+
+上式又可写作：
+\begin{equation}
+\overrightarrow{A_SP}\times \left( \overrightarrow{u}\times \overrightarrow{A_SP} \right) =\left[ \begin{matrix}
+	y^2+z^2&		-xy&		-xz\\
+	-xy&		x^2+y^2&		-yz\\
+	-xz&		-yz&		x^2+y^2\\
+\end{matrix} \right] \left| \begin{array}{c}
+	u_1\\
+	u_2\\
+	u_3\\
+\end{array} \right. 
+\end{equation}
+
+于是可得到：
+\begin{align}
+\overline{\overline{I}}\left( A_S,S \right)&=\left[ \begin{matrix}
+	\int_S{\left( y^2+z^2 \right)}\text{d}m&		\int_S{-xy}\text{d}m&		\int_S{-xz}\text{d}m\\
+	\int_S{-xy}&		\int_S{\left( x^2+y^2 \right)}\text{d}m&		\int_S{-yz}\text{d}m\\
+	\int_S{-xz}\text{d}m&		\int_S{-yz}\text{d}m&		\int_S{\left( x^2+y^2 \right)}\text{d}m\\
+\end{matrix} \right]_{\left(\overrightarrow{x_S},\overrightarrow{y_S},\overrightarrow{z_S}\right)}\notag\\ &=\left[ \begin{matrix}
+	A&		-F&		-E\\
+	-F&		B&		-D\\
+	-E&		-D&		C\\
+\end{matrix} \right]_{\left( \overrightarrow{x_S},\overrightarrow{y_S},\overrightarrow{z_S} \right)}
+\label{eq:matriceinertiedusolideS}
+\end{align}
+
+\Cref{eq:matriceinertiedusolideS}就是刚体$S$的惯性矩阵，必须定义在点$A_S$和坐标系$R_S$下。$A,B,C$分别是对应于轴$\left( A_S,\overrightarrow{x_S} \right) ,\left( A_S,\overrightarrow{y_S} \right) ,\left( A_S,\overrightarrow{z_S} \right) $的``moments d'inertie''。$D,E,F$是``produits d'inertie''。
+
+%\subsubsection{特定形式的惯性矩阵}
+%\label{sec:特定形式的惯性矩阵}
+%
+%\emph{Repère principal d'inertie}
+%
+%以刚体$S$的质心$G_S$为原点，一定可以找到某个坐标系，使其满足下列条件：
+%\begin{equation}
+%\overline{\overline{I}}_{G_S,S}\left[ \begin{matrix}
+	%A&		0&		0\\
+	%0&		B&		0\\
+	%0&		0&		C\\
+%\end{matrix} \right]_{\left( \overrightarrow{X_S},\overrightarrow{Y_S},\overrightarrow{Z_S}\right)}
+%\end{equation}
+%
+%这就叫做Repère principal d'inertie
+
+\subsubsection{Théorème de Huygens}
+\label{sec:ThéorèmeDeHuygens}
+Théorème de Huygens $\approx$ Théorème de König-Huygens $\approx$ Théorème de Steiner $\approx$ 平行轴定理
+
+\begin{align}
+\overline{\overline{I}}\left( A_S,S \right) \overrightarrow{u}&=\int_S{\overrightarrow{A_SP_S}\times \left( \overrightarrow{u}\times \overrightarrow{A_SP_S} \right)}\,\mathrm{d}m=\int_S{\left( \overrightarrow{A_SG_S}+\overrightarrow{G_SP_S} \right) \times \left( \overrightarrow{u}\times \overrightarrow{A_SP_S} \right)}\,\mathrm{d}m\notag \\
+&=\overrightarrow{A_SG_S}\times \left( \overrightarrow{u}\times \int_S{\overrightarrow{A_SP_S}}\,\mathrm{d}m \right) +\int_S{\overrightarrow{G_SP_S}}\times \left( \overrightarrow{u}\times \left( \overrightarrow{A_SG_S}+\overrightarrow{G_SP_S} \right) \right)\,\mathrm{d}m\notag \\
+&=m_S\overrightarrow{A_SG_S}\times \left( \overrightarrow{u}\times \overrightarrow{A_SG_S} \right) +\int_S{\overrightarrow{G_SP_S}\,\mathrm{d}m\times \left( \overrightarrow{u}\times \overrightarrow{A_SG_S} \right)}+\int_S{\overrightarrow{G_SP_S}\times \left( \overrightarrow{u}\times \overrightarrow{G_SP_S} \right)}\,\mathrm{d}m\notag \\
+&=m_S\overrightarrow{A_SG_S}\times \left( \overrightarrow{u}\times \overrightarrow{A_SG_S} \right) +\int_S{\overrightarrow{G_SP_S}\times \left( \overrightarrow{u}\times \overrightarrow{G_SP_S} \right)}\,\mathrm{d}m\notag \\
+&=\overline{\overline{I}}\left( A_S,\left\{ G_S,m_S \right\} \right) \overrightarrow{u}+\overline{\overline{I}}\left( G_S,S \right) \overrightarrow{u}
+\end{align}
+
+于是
+\begin{equation}
+\overline{\overline{I}}\left( A_S,S \right) =\overline{\overline{I}}\left( A_S,\left\{ G_S,m_S \right\} \right) +\overline{\overline{I}}\left( G_S,S \right) 
+\end{equation}
+
+假设$(X,Y,Z)$是$A_S$在坐标系$G_S,\overrightarrow{x_S},\overrightarrow{y_S},\overrightarrow{z_S}$下的坐标分量。我们有：
+\begin{equation}
+\overline{\overline{I}}\left( A_S,\left\{ G_S,m_S \right\} \right) =\left[ \begin{matrix}
+	m_S\left( Y^2+Z^2 \right)&		-m_SXY&		-m_SXZ\\
+	-m_SXY&		m_S\left( X^2+Z^2 \right)&		-m_SYZ\\
+	-m_SXZ&		-m_SYZ&		m_S\left( X^2+Y^2 \right)\\
+\end{matrix} \right] _{\left( \overrightarrow{x_S},\overrightarrow{y_S},\overrightarrow{z_S} \right)}
+\end{equation}
+
+如果$\overrightarrow{A_SG_S}$与坐标系$G_S,\overrightarrow{x_S},\overrightarrow{y_S},\overrightarrow{z_S}$的$\left(G_S,\overrightarrow{x_S}\right)$保持平行，那么可以得到平行轴定理如下：
+\begin{equation}
+\overrightarrow{A_SG_S}=d\overrightarrow{x_S}\ \Longrightarrow \ \overline{\overline{I}}\left( A_S,\left\{ G_S,m_S \right\} \right) =\left[ \begin{matrix}
+	0&		0&		0\\
+	0&		m_Sd^2&		0\\
+	0&		0&		m_Sd^2\\
+\end{matrix} \right] _{\left( \overrightarrow{x_S},-,- \right)}
+\end{equation}
+
+
+\section{实功率和虚功率}
+\label{sec:实功率和虚功率}
+
+中文和英文的理论力学教材一般采用虚功原理这一概念，只有在连续介质力学里才用到虚功率原理，MDM的课本会与MMC (Mécanique des milieux continus)的课本衔接，所以采用了“虚功率原理”。
+
+%\Cref{sec:适用于质点系的虚功率原理}和后续的\cref{sec:EQUATIONSDELAGRANGE}属于分析力学的范畴，重点是变分原理-用把真实运动与在约束条件下的各种可能运动进行比较的方法，从中找出真实运动满足的条件。
+
+%\subsection{动能定理}
+%\label{sec:动能定理}
+
+\subsection{单质点的情形}
+\label{sec:单质点的情形}
+在惯性参考系$R_g$中，单个质点$M$（其质量为$m$）受到外力$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)$，其速度为$\overrightarrow{V}\left(M/R_g\right)$。该外力$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)$在时刻$t$产生的、在参考系$R_g$中的实功率定义为数量积$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)\cdot \overrightarrow{V}\left(M/R_g\right)$。
+
+于是单质点的动能定理可以表述如下：
+
+在惯性参考系$R_g$中，质点$M$的动能关于时间的导数在每个时刻均等于外力$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)$做的功率，即
+\begin{equation}
+\frac{\mathrm{d}T\left(M/R_g\right)}{\mathrm{d}t}=\frac{1}{2}\frac{\mathrm{d}V\left(M/R_g\right)^2\cdot m}{\mathrm{d}t}=\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)\cdot \overrightarrow{V}\left(M/R_g\right)
+\end{equation}
+
+如果该质点拥有一个虚速度$\overrightarrow{V}^{\ast}\left(M/R_g\right)$，那么该外力$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)$在时刻$t$产生的、在参考系$R_g$中的虚功率定义为数量积$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)\cdot \overrightarrow{V}^{\ast}\left(M/R_g\right)$。
+
+于是牛顿第二运动定律等价于下述对单质点的虚功率定理：
+
+在惯性参考系$R_g$中，质点的加速度引起的虚功率在每个时刻均等于外力$\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)$产生的虚功率，即
+\begin{equation}
+m\cdot\overrightarrow{\Gamma}\left(M/R_g\right)\cdot\overrightarrow{V}^{\ast}\left(M/R_g\right)=\overrightarrow{F}\left(\overrightarrow{a}\rightarrow M/R_g\right)\cdot\overrightarrow{V}^{\ast}\left(M/R_g\right)
+\end{equation}
+
+我觉得这条定理很废话，目前看似并无卵用。
+
+
+\subsection{质点系的情形}
+\label{sec:质点系的情形}
+在惯性参考系$R_g$中，设质点系$\Sigma$由$n$个质点$M_1, M_2,\ldots,M_n$（其质量分别为$m_1, m_2,\ldots,m_n$）组成，分别具有虚速度$\overrightarrow{V_1}^{\ast}\left(M_1/R_g\right), \overrightarrow{V_2}^{\ast}\left(M_2/R_g\right),\ldots,\overrightarrow{V_n}^{\ast}\left(M_n/R_g\right)$。这些虚速度矢量组成了一个虚速度场。质点系所受到的所有外力和内力的虚功率之和是
+\begin{align}
+&\sum_{i=1}^n{\left\{ \overrightarrow{F}\left( \overrightarrow{a}\rightarrow M_i/R_g \right) \cdot \overrightarrow{V_i}^{\ast}\left( M_i/R_g \right) +\sum_{j=1,j\ne i}^n{\overrightarrow{F}\left( M_j\rightarrow M_i \right) \cdot \overrightarrow{V_i}^{\ast}\left( M_i/R_g \right)} \right\}}\notag \\
+=&\sum_{i=1}^n{m_i\cdot \overrightarrow{\Gamma }\left( M_i/R_g \right)}\cdot \overrightarrow{V_i}^{\ast}\left( M_i/R_g \right)
+\label{eq:virtualpowerofasystem}
+\end{align}
+
+\emph{刚性化质点系的定义}
+
+当且仅当\cref{eq:virtualpowerofasystem}里的质点系的虚速度场$\left\{\overrightarrow{V_i}^{\ast},i=1,\ldots,n\right\}$是一群螺旋矢量场时，这个虚速度场才把质点系刚性化（即把质点系变成一个等效的刚体）。
+
+于是可以引出质点系的虚功率定理：
+
+在惯性参考系$R_g$中，如果一个质点系$\Sigma$具有一个刚性化虚速度场$\left\{\overrightarrow{V_i}^{\ast},i=1,\ldots,n\right\}$，那么任意时刻质点系受到的所有外力的虚功率之和等于质点系每一个质点的加速度量之和，即
+\begin{equation}
+\sum_{i=1}^n{m_i\cdot\overrightarrow{\Gamma}\left(M_i/R_g\right)}\cdot\overrightarrow{V_i}^{\ast}\left(M_i/R_g \right)=\sum_{i=1}^n\overrightarrow{F}\left( \overrightarrow{a}\rightarrow M_i/R_g \right) \cdot \overrightarrow{V_i}^{\ast}\left( M_i/R_g \right)
+\label{eq:virtualpowertheoremforasystem}
+\end{equation}
+
+\Cref{eq:virtualpowerofasystem}中包含质点之间的互相作用力产生的虚功率，而\cref{eq:virtualpowertheoremforasystem}则不包含质点之间的互相作用力产生的虚功率。原因是定理\cref{eq:virtualpowertheoremforasystem}只对刚性化虚速度场成立。一旦质点系被赋予了刚性化虚速度场，质点系就被刚化了，质点之间的互相作用力产生的虚功率之和等于零。
+
+
+\subsection{普通物质系统的情形}
+\label{sec:普通物质系统的情形}
+MDM课本里直接给出了关于一个质量守恒的物质系统$\Sigma$的通用虚功率定理，详细的推导过程参见\cite{realandvirtualpower}。
+
+%我们假设有一个普通的物质系统$S$，是时刻$t$占据了空间中的$\Omega_t$区域。
+%
+%该物质系统$S$的虚速度场是一个定义$\Omega_t$上的矢量场$\left\{\overrightarrow{V}(x)^{\ast},x\in\Omega_t \right\}$。
+%
+%如果该虚速度场$\left\{\overrightarrow{V}(x)^{\ast},x\in\Omega_t \right\}$是一个螺旋矢量场时，该虚速度就把物质系统$S$刚化了。
+
+假设$\Sigma$是一个质量守恒的物质系统，受到外力$\overrightarrow{a_m}$作用，存在（即总是能找到）一个惯性参考系$R_g$，使得在任意时刻$t$，对于任意的虚速度场，$\Sigma$的加速度量的虚功率恒等于外力产生的虚功率与系统内力产生的虚功率之和，即
+
+$\exists R_g$, appelé référentiel galiléen, tel que : $\forall \overrightarrow{V}^{\ast}$ champ vectoriel quelconque défini sur $\Sigma$, $\forall t,\ P_a^{\ast}\left(\Sigma/R_g\right)=P_e^{\ast}\left(\overline{\Sigma}\rightarrow\Sigma\right)+P_i^{\ast}\left(\Sigma\right)\label{generalvirtualpowertheorem}$
+
+\begin{description}
+  \item[$\bullet$] $\overrightarrow{V}^{\ast}$是物质系统$\Sigma$的虚速度场
+  \item[$\bullet$] $P_a^{\ast}$是在$R_g$中$\Sigma$的加速度量的虚功率（la puissance virtuelle dynamique）：
+									\begin{equation}					 
+									P_a^{\ast}\left(\Sigma/R_g\right)=\int_{\Sigma}\overrightarrow{\Gamma}\left(P/R_g\right)\cdot\overrightarrow{V}^{\ast}\left(P\right)\ \mathrm{d}m
+									\end{equation}
+  \item[$\bullet$] $P_e^{\ast}$是外力$\overrightarrow{a_m}$产生的虚功率：
+									\begin{equation}					 
+									P_e^{\ast}\left(\overline{\Sigma}\rightarrow\Sigma\right)=\sum_{m}\int_{\Omega_m}\overrightarrow{a_m}\left(P\right)\cdot\overrightarrow{V}^{\ast}\left(P\right)\ \mathrm{d}\Omega_m
+									\end{equation}
+									
+%在分析力学中，通常将相互作用力分为主动力和约束力。因此就存在着主动力的虚功和约束力的虚功。 
+  \item[$\bullet$] $P_i^{\ast}$是物质系统内力产生的虚功率：
+									\begin{equation}					 
+									P_i^{\ast}\left(\Sigma\right)=\int_{\Sigma}Tr[\overline{\overline{\sigma}}\;\overline{\overline{\varepsilon}}(\overrightarrow{V}^{\ast})]\ \mathrm{d}\Sigma
+									\end{equation}
+									$\overline{\overline{\sigma}}$是应力张量，$\overline{\overline{\varepsilon}}(\overrightarrow{V}^{\ast})$是应变张量
+\end{description}
+
+
+\subsection{刚体的情形}
+\label{sec:刚体的情形}
+\Cref{generalvirtualpowertheorem}对可变形的物质系统成立，对不可变形的物质系统也成立。将该定理用于刚体时，要选择特定的虚速度场以“去除”等式中物质系统内力产生的虚功率。这个特定的虚速度场只能是螺旋矢量场。因为螺旋矢量场不会“造成”刚体变形，而且应变张量$\overline{\overline{\varepsilon}}(\overrightarrow{V}^{\ast})$为零。
+
+这样一来，刚体的虚功率定理变成了,
+
+假设$S$是一个刚体，受到外力$\overrightarrow{a_m}$作用，存在（即总是能找到）一个惯性参考系$R_g$，使得在任意时刻$t$，对于任意的满足螺旋矢量场要求的虚速度场及其对应的旋量，$S$的加速度量的虚功率恒等于外力产生的虚功率与系统内力产生的虚功率之和，即
+
+$\exists R_g$, appelé référentiel galiléen, tel que : $\forall \mathlarger{\mathscr{V}}^{\ast}\left(S\right)$ torseur quelconque défini sur $\Sigma$, $\forall t,\ P_a^{\ast}\left(S/R_g\right)=P_e^{\ast}\left(\overline{S}\rightarrow S\right)\label{virtualpowertheoremforasolid}$
+
+其中$\mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\left\{\begin{matrix}
+  \overrightarrow{\Omega}^{\ast}\left(S/R\right) \\
+  \overrightarrow{V}^{\ast}\left(A/R\right)
+ \end{matrix} \right\}_A$是定义在$S$上的任意旋量
+
+
+在使用刚体的虚功率定理之前，首先要定义刚体的实功率。假设作用于刚体$S$的外力旋量为
+\begin{equation}
+\mathlarger{\mathscr{F}}\left(\overrightarrow{a}\in \overline{S}\rightarrow S\right)=\left\{\begin{matrix}
+  \int_{\Sigma}\overrightarrow{a}\ \mathrm{d}\Omega \\
+  \int_{\Sigma}\overrightarrow{a}\times\overrightarrow{PA}\ \mathrm{d}\Omega 
+ \end{matrix} \right\}_A=\left\{\begin{matrix}
+	\overrightarrow{F}\left(\overrightarrow{a}\in \overline{S}\rightarrow S\right)\\
+	\overrightarrow{M}\left(A, \overrightarrow{a}\in \overline{S}\rightarrow S\right)
+ \end{matrix} \right\}_A
+\end{equation}
+
+再假设刚体的速度场为$\overrightarrow{V}(A/R_g)$，当该速度场是一个螺旋矢量场时（可以写出对应的旋量$\mathlarger{\mathscr{V}}\left(S/R_g\right)$），实功率如下，
+\begin{align}
+P_e\left(\overrightarrow{a}\in \overline{S}\rightarrow S/R_g\right)&=P_e\left(\overrightarrow{a}\rightarrow S/R_g\right)=\mathlarger{\mathscr{F}}\left(\overrightarrow{a}\in \overline{S}\rightarrow S\right)\bullet \mathlarger{\mathscr{V}}\left(S/R_g\right)\notag \\ &=\mathlarger{\mathscr{F}}\left(\overrightarrow{a} \rightarrow S\right)\bullet \mathlarger{\mathscr{V}}\left(S/R_g\right)=\left\{\begin{matrix}
+	\overrightarrow{F}\left(\overrightarrow{a}\rightarrow S\right)\\
+	\overrightarrow{M}\left(A, \overrightarrow{a}\rightarrow S\right)
+ \end{matrix} \right\}_A \bullet \left\{\begin{matrix}
+  \overrightarrow{\Omega}\left(S/R_g\right) \\
+  \overrightarrow{V}\left(A/R_g\right)
+ \end{matrix} \right\}_A
+\end{align}
+
+在此基础上，可以开始计算虚功率，
+\begin{equation}
+	P_a^{\ast}\left(S/R_g\right)=\mathlarger{\mathscr{D}}\left(S/R_g\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\left\{\begin{matrix}
+  \int_{S}\overrightarrow{\Gamma}\left(P/R_g\right)\ \mathrm{d}m \\
+  \int_{S}\overrightarrow{AP}\times\overrightarrow{\Gamma}\left(P/R_g\right)\ \mathrm{d}m
+ \end{matrix} \right\}_A \bullet \left\{\begin{matrix}
+  \overrightarrow{\Omega}^{\ast}\left(S/R\right) \\
+  \overrightarrow{V}^{\ast}\left(A/R\right)
+ \end{matrix} \right\}_A=\int_{S} \overrightarrow{\Gamma}\left(P/R_g\right)\cdot \overrightarrow{V}^{\ast}\left(P/R_g\right)
+\end{equation}
+
+
+\begin{align}
+	P_e^{\ast}\left(\overline{S}\rightarrow S\right)&=\mathlarger{\mathscr{F}}\left(\overline{S}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\left[\sum_{m}\mathlarger{\mathscr{F}}\left(\overrightarrow{a_m}\rightarrow S\right)\right]\bullet\mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\sum_{m}\mathlarger{\mathscr{F}}\left(\overrightarrow{a_m}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}^{\ast}\left(S\right)\notag \\
+	&=\sum_{m}\int_{\Omega_m}\overrightarrow{a_m}\left(P\right)\cdot\overrightarrow{V}^{\ast}\left(P\right)\ \mathrm{d}\Omega_m
+\end{align}
+
+于是，更恰当的刚体的虚功率定理可以写作，
+
+$\exists R_g$, appelé référentiel galiléen, tel que : $\forall \mathlarger{\mathscr{V}}^{\ast}\left(S\right)$ torseur quelconque défini sur $\Sigma$, $\forall t,\ \mathlarger{\mathscr{D}}\left(S/R_g\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\mathlarger{\mathscr{F}}\left(\overline{S}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}^{\ast}\left(S\right)$
+
+
+\subsection{2个刚体的相互作用力产生的虚功率}
+\label{sec:2个刚体的相互作用力产生的虚功率}
+不知道有什么用，略过。
+\begin{equation}
+	P^{\ast}\left(S_k\leftarrow \overrightarrow{a} \rightarrow S_j\right)=\mathlarger{\mathscr{F}}\left(S_k \stackrel{\overrightarrow{a}}{\rightarrow} S_j\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S_j/S_k\right)
+\end{equation}
+
+\subsection{理想约束}
+\label{sec:理想约束}
+略
+
+\subsection{质量可忽略的刚体之间的媒介}
+\label{sec:质量可忽略的刚体之间的媒介}
+略
+
+%\subsubsection{Principe des Puissances Virtuelles pour un solide}
+%\label{sec:PrincipeDesPuissancesVirtuellesPourUnSolide}
+%
+%Pour un solide $S$ (déformable ou non), $\exists R_g$, appelé référentiel galiléen, tel que : $\forall \mathlarger{\mathscr{V}}^{\ast}$ torseur quelconque défini sur $S$, $\forall t,\ P_a^{\ast}\left(S/R_g\right)=P_e^{\ast}\left(\overline{S}\rightarrow S\right),\ P_i^{\ast}\left(S\right)=0$.\\
+%
+%质点系内所有质点所受全部内力矢量和为零；对任意参考点O，质点系内所有质点所受全部内力矩的矢量和为零；质点系内所有质点所受全部内力做功之和一般不为零；但是\emph{由于刚体内任意两个质点间的距离均保持不变，所以刚体内力做功之和为零！}\\
+%
+%Autrement dit, pour un solide $S$ (déformable ou non), $\exists R_g$, appelé référentiel galiléen, tel que : $\forall \mathlarger{\mathscr{V}}^{\ast}$ torseur quelconque défini sur $S$, $\forall t,\  \mathlarger{\mathscr{D}}\left(S/R_g\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\mathlarger{\mathscr{F}}\left(\overline{S}\rightarrow S\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S\right)$.
+
+
+\subsection{刚体系统的情形}
+\label{sec:刚体系统的情形}
+暂时不翻译
+
+Pour un système matériel $\Sigma$ composé de $p$ solides $S_j$ (déformable ou non),
+\begin{align}
+P_a^{\ast}\left(\Sigma/R_g\right)&=P_e^{\ast}\left(\overline{\Sigma}\rightarrow\Sigma\right)+P_i^{\ast}\left(\Sigma\right) \notag \\
+\sum_{j}P_a^{\ast}\left(S_j/R_g\right)&=\sum_{j}P_e^{\ast}\left(\overline{\Sigma}\rightarrow S_j\right)+\sum_j \sum_{k\neq j} P^{\ast}\left(S_k\rightarrow S_j\right)
+\end{align}
+
+Autrement dit, pour un système matériel $\Sigma$ composé de $p$ solides $S_j$ (déformable ou non), $\exists R_g$, appelé référentiel galiléen, tel que : $\forall t,\ \forall\overrightarrow{V}^{\ast}$ défini sur $\Sigma$ tel que : $\overrightarrow{V}^{\ast}|S_j=\mathlarger{\mathscr{V}}^{\ast}\left(S_j\right)$,\\
+$\sum_j \mathlarger{\mathscr{D}}\left(S_j/R_g\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S_j\right)=\sum_j \mathlarger{\mathscr{F}}\left(\overline{\Sigma}\rightarrow S_j\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S_j\right)+\sum_j\sum_{k\le j}\mathlarger{\mathscr{F}}\left(S_k\rightarrow S_j\right)\bullet \mathlarger{\mathscr{V}}^{\ast}\left(S_j/S_k\right)$.\\
+
+Parce que $\mathlarger{\mathscr{V}}^{\ast}\left(S_j\right)$ étant un torseur quelconque, le principe conduit à l'égalité du torseur dynamique et du torseur des actions mécaniques extérieures : $\mathlarger{\mathscr{D}}\left(S_j/S_k\right)=\mathlarger{\mathscr{F}}\left(\overline{S_j}\rightarrow S_j\right)$.\\
+
+Ce qui donne 2 équations vectorielles indépendantes (donc 6 équations scalaires indépendantes) par solide.
+
+\section{拉格朗日方程}
+\label{sec:拉格朗日方程}
+这部分内容做一遍后面的题目就可以理解了，没特别好讲的。
+
+\subsection{和广义坐标相容的速度场}
+\label{sec:和广义坐标相容的速度场}
+回顾\cref{eq:vitessedunpointP}和\cref{eq:vitesserelativedunpointP}, les champs de vitesse partielles sont donc des torseurs que l'on note :
+\begin{equation}
+\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)=\left\{\begin{matrix}
+  \overrightarrow{\Omega}_{q_i}\left(S/R_g\right) \\
+  \overrightarrow{V}_{q_i}\left(P/R_g\right)
+ \end{matrix} \right\}_P=\left\{\begin{matrix}
+  \frac{\partial \overrightarrow{\Omega}\left(S/R_g\right)}{\partial v_i} \\
+  \frac{\partial \overrightarrow{V}\left(P/R_g\right)}{\partial v_i}
+ \end{matrix} \right\}_P
+\end{equation}
+
+\subsection{Equations de Lagrange pour un solide}
+\label{EquationDeLagrangePourUnSolide}
+On considère que tous les mouvements compatibles avec ce paramétrage : le mouvement est donc décrit par $q_i$, $v_i$ indépendants. Ensuite on choisit comme champs de vitesse virtuelle, les champs de vitesse partielle de $S$ par rapport à $R_g$ relatif aux paramètres $q_i$ :
+\begin{equation}
+\mathlarger{\mathscr{V}}^{\ast}\left(S\right)=\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)=\left\{\begin{matrix}
+  \frac{\partial \overrightarrow{\Omega}\left(S/R_g\right)}{\partial v_i} \\
+  \frac{\partial \overrightarrow{V}\left(P/R_g\right)}{\partial v_i}
+ \end{matrix} \right\}_P
+\end{equation}
+
+Donc on peut appliquer $n$ fois (une fois par paramètre $q_i$) le Principe des Puissances Virtuelles pour un solide.
+
+\begin{equation}
+\forall q_i,\ P_a^{\ast}\left(S/R_g\right)=P_e^{\ast}\left(\overline{S}\rightarrow S\right),\ P_i^{\ast}\left(S\right)=0
+\end{equation}
+
+La puissance virtuelle des quantités d'accélération relative au paramètre (广义坐标) $q_i$ est :
+
+\begin{equation}
+P_{a_{q_i}}^{\ast}\left(S/R_g\right)=\mathlarger{\mathscr{D}}\left(S/R_g\right)\bullet\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)=\int_{S}\overrightarrow{\Gamma}\left(P/R_g\right)\cdot\overrightarrow{V}_{q_i}\left(P/R_g\right)\ \mathrm{d}m
+\end{equation}
+
+La puissance virtuelle des actions extérieures relative au paramètre $q_i$ est :
+
+\begin{equation}
+P_{e_{q_i}}^{\ast}\left(\overline{S}\rightarrow S\right)=\mathlarger{\mathscr{F}}\left(\overline{S}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)=\sum_{m}\mathlarger{\mathscr{F}}\left(\overrightarrow{a_m}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)
+\end{equation}
+
+
+\subsubsection{Puissance virtuelle dynamique}
+\label{sec:PuissanceVirtuelleDynamique}
+\begin{align}
+P_{a_{q_i}}^{\ast}\left(S/R_g\right)&=\mathlarger{\mathscr{D}}\left(S/R_g\right)\bullet\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)=\int_{S}\overrightarrow{\Gamma}\left(P/R_g\right)\cdot\overrightarrow{V}_{q_i}\left(P/R_g\right)\ \mathrm{d}m\notag \\ &=\int_{S}\frac{\mathrm{d}}{\mathrm{d}t}\left\{\frac{\partial}{\partial v_i}\left[\frac{1}{2}\overrightarrow{V}\left(P/R_g\right)^2\right]\right\}-\frac{\partial}{\partial q_i}\left[\frac{1}{2}\overrightarrow{V}\left(P/R_g\right)^2\right]\ \mathrm{d}m\notag \\ &=\int_{S}\underbrace{\left\{\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial}{\partial v_i}-\frac{\partial}{\partial q_i}\right\}}_{\text{l'opérateur de Lagrange}}\frac{1}{2}\overrightarrow{V}\left(P/R_g\right)^2\ \mathrm{d}m\notag \\ &=\left\{\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial}{\partial v_i}-\frac{\partial}{\partial q_i}\right\}\int_{S}\frac{1}{2}\overrightarrow{V}\left(P/R_g\right)^2\ \mathrm{d}m\notag \\ &=\left\{\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial}{\partial v_i}-\frac{\partial}{\partial q_i}\right\}T\left(S/R_g\right)
+\end{align}
+
+Au fait, l'énergie cinétique est obtenu en effectuant le comoment des torseurs cinématique et cinétique :
+
+\begin{equation}
+2T\left(S/R_g\right)=\mathlarger{\mathscr{V}}\left(S/R_g\right)\bullet \mathlarger{\mathscr{C}}\left(S/R_g\right)
+\end{equation}
+
+
+
+\subsubsection{Puissance virtuelle des actions mécaniques extérieures}
+\label{sec:PuissanceVirtuelleDesActionsMécaniquesExtérieures}
+\begin{align}
+P_{e_{q_i}}^{\ast}\left(\overline{S}\rightarrow S\right)&=\mathlarger{\mathscr{F}}\left(\overline{S}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)=\sum_{m}\mathlarger{\mathscr{F}}\left(\overrightarrow{a_m}\rightarrow S\right)\bullet\mathlarger{\mathscr{V}}_{q_i}\left(S/R_g\right)\notag \\ &=\sum_{m}\underbrace{Q_{q_i}\left(\overrightarrow{a_m}\rightarrow S/R_g\right)}_{\text{coefficient énergétique}}=\sum_{m}P_{e_{q_i}}^{\ast}\left(\overrightarrow{a_m}\rightarrow S/R_g\right)
+\end{align}
+
+
+
+\subsubsection{Enoncé : Equation de Lagrange pour un solide}
+\label{sec:EnoncéEquationDeLagrangePourUnSolide}
+Soit $R_g$, un référentiel galiléen; soit un solide $S$ sollicité par les actions mécaniques extérieures $\overrightarrow{a_m}$ et repéré par $n$ paramètres $q_i$ dans $R_g$.
+
+On considère que $q_i$ et $\dot{q}_i$ indépendants.
+
+\begin{equation}
+\forall q_i,\ \forall t,\ \ \mathlarger{\mathscr{L_{q_i}}}\ :\ \left\{\frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial}{\partial\dot{q}_i}-\frac{\partial}{\partial q_i} \right\}T\left(S/R_g\right)=\sum_m Q_{q_i}\left(\overrightarrow{a_m}\rightarrow S/R_g\right)=Q_{q_i}\left(\overline{S}\rightarrow S/R_g\right)
+\end{equation}
+
+\subsection{Equation de Lagrange pour un système de solides}
+\label{sec:EquationDeLagrangePourUnSystemeDeSolides}
+过几天再写
+%Soit un système de $\Omega$ de $p$ solides $\{S_j|j=1,2,3,\cdots,p\}$ repérés par $n$ paramètres $q_i$. On considérè tous les mouvements compatibles avec ce paramétrage : $q_i$ et $\dot{q}_i$ indépendants.
+
+\bibliographystyle{gbt7714-2005} 
+\bibliography{reference_meca}
+
+
+\end{document}
